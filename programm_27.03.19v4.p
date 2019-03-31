@@ -5,137 +5,137 @@ DEF QUERY q_classf FOR classf.
 DEF QUERY q_tt_cl-good FOR tt_cl-good, katalog.
 
 /* DEF WIDGETS */
-/*вывод узлов классификатора*/
+/*РІС‹РІРѕРґ СѓР·Р»РѕРІ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°*/
 DEF BROWSE b_classf QUERY q_classf 
     DISP classf.NAME 
-    WITH 20 DOWN TITLE "Классификатор".
+    WITH 20 DOWN TITLE "РљР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ".
 
-/*вывод каталога классификатора*/
+/*РІС‹РІРѕРґ РєР°С‚Р°Р»РѕРіР° РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°*/
 DEF BROWSE b_katalog QUERY q_tt_cl-good
     DISP katalog.cod_good katalog.NAME katalog.artic katalog.cod_firm
-    WITH 25 DOWN TITLE "Каталог". 
+    WITH 25 DOWN TITLE "РљР°С‚Р°Р»РѕРі". 
 
 DEF VAR checkboxsort AS LOGICAL FORMAT "TRUE/FALSE" INITIAL FALSE
-     LABEL "По убыванию"
+     LABEL "РџРѕ СѓР±С‹РІР°РЅРёСЋ"
      VIEW-AS TOGGLE-BOX SIZE 30 BY 1 NO-UNDO.
 
 DEF VAR comsorted AS CHARACTER FORMAT "X(256)":U
-    LABEL "Сортировать по" 
-    INITIAL "Наименование"
+    LABEL "РЎРѕСЂС‚РёСЂРѕРІР°С‚СЊ РїРѕ" 
+    INITIAL "РќР°РёРјРµРЅРѕРІР°РЅРёРµ"
     VIEW-AS COMBO-BOX
-    LIST-ITEMS "Наименование", "Артикул", "Код"
+    LIST-ITEMS "РќР°РёРјРµРЅРѕРІР°РЅРёРµ", "РђСЂС‚РёРєСѓР»", "РљРѕРґ"
     INNER-LINES 15    
     DROP-DOWN-LIST
     SIZE 30 BY 1 NO-UNDO.
 
 DEF VAR filtr_name AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Наименование" 
+     LABEL "РќР°РёРјРµРЅРѕРІР°РЅРёРµ" 
      VIEW-AS FILL-IN
      SIZE 20 BY 1 NO-UNDO.
 
 DEF VAR filtr_art AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Артикул" 
+     LABEL "РђСЂС‚РёРєСѓР»" 
      VIEW-AS FILL-IN
      SIZE 20 BY 1 NO-UNDO.
 
 DEF VAR filtr_post AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Код поставщика"
+     LABEL "РљРѕРґ РїРѕСЃС‚Р°РІС‰РёРєР°"
      VIEW-AS FILL-IN
      SIZE 20 BY 1 NO-UNDO.
 
-DEF BUTTON btn_exit LABEL "Выход.".
+DEF BUTTON btn_exit LABEL "Р’С‹С…РѕРґ.".
 
 /* DEF FRAME */
-/*содержит таблицу классификатора*/
+/*СЃРѕРґРµСЂР¶РёС‚ С‚Р°Р±Р»РёС†Сѓ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°*/
 DEF FRAME f_main
-    b_classf HELP "'->' вперёд, '<-' назад, 'Enter' показать товары, 'F4' выход."
-    btn_exit HELP "'F4' выход."
+    b_classf HELP "'->' РІРїРµСЂС‘Рґ, '<-' РЅР°Р·Р°Рґ, 'Enter' РїРѕРєР°Р·Р°С‚СЊ С‚РѕРІР°СЂС‹, 'F4' РІС‹С…РѕРґ."
+    btn_exit HELP "'F4' РІС‹С…РѕРґ."
     WITH 1 COLUMN SIDE-LABELS SIZE 82 BY 20
-    CENTERED TITLE "Список классификаторов.".
+    CENTERED TITLE "РЎРїРёСЃРѕРє РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРІ.".
 
-/*содержит таблицу каталога*/
+/*СЃРѕРґРµСЂР¶РёС‚ С‚Р°Р±Р»РёС†Сѓ РєР°С‚Р°Р»РѕРіР°*/
 DEF FRAME f_katalog
-    b_katalog HELP "F5 фильтр,F6 сортировка,-> изменить, Delete удалить, Esc назад."
+    b_katalog HELP "F5 С„РёР»СЊС‚СЂ,F6 СЃРѕСЂС‚РёСЂРѕРІРєР°,-> РёР·РјРµРЅРёС‚СЊ, Delete СѓРґР°Р»РёС‚СЊ, Esc РЅР°Р·Р°Рґ."
     WITH 1 COLUMN SIDE-LABELS SIZE 125 BY 30
-    CENTERED TITLE "Просмотр каталога.".
+    CENTERED TITLE "РџСЂРѕСЃРјРѕС‚СЂ РєР°С‚Р°Р»РѕРіР°.".
 
-/*содержит фльтр для каталога*/
+/*СЃРѕРґРµСЂР¶РёС‚ С„Р»СЊС‚СЂ РґР»СЏ РєР°С‚Р°Р»РѕРіР°*/
 DEF FRAME f_katalog_filtr SKIP(1)
-    filtr_name HELP "Esc-вернуться применив фильтр, F7-сбросить фильтр."
-    filtr_art HELP "Esc-вернуться применив фильтр, F7-сбросить фильтр."
-    filtr_post HELP "Esc-вернуться применив фильтр, F7-сбросить фильтр."
+    filtr_name HELP "Esc-РІРµСЂРЅСѓС‚СЊСЃСЏ РїСЂРёРјРµРЅРёРІ С„РёР»СЊС‚СЂ, F7-СЃР±СЂРѕСЃРёС‚СЊ С„РёР»СЊС‚СЂ."
+    filtr_art HELP "Esc-РІРµСЂРЅСѓС‚СЊСЃСЏ РїСЂРёРјРµРЅРёРІ С„РёР»СЊС‚СЂ, F7-СЃР±СЂРѕСЃРёС‚СЊ С„РёР»СЊС‚СЂ."
+    filtr_post HELP "Esc-РІРµСЂРЅСѓС‚СЊСЃСЏ РїСЂРёРјРµРЅРёРІ С„РёР»СЊС‚СЂ, F7-СЃР±СЂРѕСЃРёС‚СЊ С„РёР»СЊС‚СЂ."
     WITH 1 COLUMN SIDE-LABELS SIZE 50 BY 7
-    VIEW-AS DIALOG-BOX CENTERED TITLE "Фильтр".
+    VIEW-AS DIALOG-BOX CENTERED TITLE "Р¤РёР»СЊС‚СЂ".
 
-/*содержит сортировку для каталога*/
+/*СЃРѕРґРµСЂР¶РёС‚ СЃРѕСЂС‚РёСЂРѕРІРєСѓ РґР»СЏ РєР°С‚Р°Р»РѕРіР°*/
 DEF FRAME f_katalog_sort SKIP(1)
-    comsorted HELP "Esc-вернуться, применив сортировку."
-    checkboxsort HELP "Esc-вернуться, применив сортировку." 
+    comsorted HELP "Esc-РІРµСЂРЅСѓС‚СЊСЃСЏ, РїСЂРёРјРµРЅРёРІ СЃРѕСЂС‚РёСЂРѕРІРєСѓ."
+    checkboxsort HELP "Esc-РІРµСЂРЅСѓС‚СЊСЃСЏ, РїСЂРёРјРµРЅРёРІ СЃРѕСЂС‚РёСЂРѕРІРєСѓ." 
     WITH 1 COLUMN SIDE-LABELS SIZE 50 BY 7
-    VIEW-AS DIALOG-BOX CENTERED TITLE "Сортировка".
+    VIEW-AS DIALOG-BOX CENTERED TITLE "РЎРѕСЂС‚РёСЂРѕРІРєР°".
 
-/*содержит таблицу каталога*/
+/*СЃРѕРґРµСЂР¶РёС‚ С‚Р°Р±Р»РёС†Сѓ РєР°С‚Р°Р»РѕРіР°*/
 DEF FRAME f_katalog_update
-    katalog.NAME HELP "Введите изменения, F4-выход."
+    katalog.NAME HELP "Р’РІРµРґРёС‚Рµ РёР·РјРµРЅРµРЅРёСЏ, F4-РІС‹С…РѕРґ."
     WITH 
-    VIEW-AS DIALOG-BOX TITLE "Просмотр каталога.".
+    VIEW-AS DIALOG-BOX TITLE "РџСЂРѕСЃРјРѕС‚СЂ РєР°С‚Р°Р»РѕРіР°.".
 
-/*фрейм для загрузки (не реализован)*/
+/*С„СЂРµР№Рј РґР»СЏ Р·Р°РіСЂСѓР·РєРё (РЅРµ СЂРµР°Р»РёР·РѕРІР°РЅ)*/
 DEF FRAME f_katalog_load SKIP(1)
     WITH 1 COLUMN SIDE-LABELS SIZE 50 BY 7
-    VIEW-AS DIALOG-BOX CENTERED TITLE "Подождите немного.".
+    VIEW-AS DIALOG-BOX CENTERED TITLE "РџРѕРґРѕР¶РґРёС‚Рµ РЅРµРјРЅРѕРіРѕ.".
 
 /* MAIN LOGIC */
 ENABLE ALL WITH FRAME f_main.
 OPEN QUERY q_classf FOR EACH classf WHERE classf.parent_id = 0.
-comsorted:SCREEN-VALUE = "Наименование".
+comsorted:SCREEN-VALUE = "РќР°РёРјРµРЅРѕРІР°РЅРёРµ".
 RUN Enter(0).
 DISP WITH FRAME f_main.
 
 b_katalog:HEIGHT-CHAR = FRAME f_katalog:HEIGHT-CHAR - 1.
 b_katalog:WIDTH-CHAR = FRAME f_katalog:WIDTH-CHAR - 1.
 
-/*переход на следующий уровень классификатора*/
+/*РїРµСЂРµС…РѕРґ РЅР° СЃР»РµРґСѓСЋС‰РёР№ СѓСЂРѕРІРµРЅСЊ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°*/
 ON RIGHT OF b_classf DO:
     b_classf:REFRESH().
     IF AVAIL classf THEN DO:
         RUN enter(classf.id) NO-ERROR.
     END.
     ELSE DO:
-        DISP "Выберите запись!".
+        DISP "Р’С‹Р±РµСЂРёС‚Рµ Р·Р°РїРёСЃСЊ!".
         RETURN.
     END.
 END.
 
-/*переход на предыдущий уровень классификатора*/ 
+/*РїРµСЂРµС…РѕРґ РЅР° РїСЂРµРґС‹РґСѓС‰РёР№ СѓСЂРѕРІРµРЅСЊ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°*/ 
 ON LEFT OF b_classf DO:
     b_classf:REFRESH().
     IF AVAIL classf THEN DO:
         RUN backspase(classf.parent_id).
     END.
     ELSE DO:
-        DISP "Процедура не может найти запись!".
+        DISP "РџСЂРѕС†РµРґСѓСЂР° РЅРµ РјРѕР¶РµС‚ РЅР°Р№С‚Рё Р·Р°РїРёСЃСЊ!".
         RETURN.
     END. 
 END.
 
-/*показать все товары по выбранному узлу и по дочерним узлам*/ 
+/*РїРѕРєР°Р·Р°С‚СЊ РІСЃРµ С‚РѕРІР°СЂС‹ РїРѕ РІС‹Р±СЂР°РЅРЅРѕРјСѓ СѓР·Р»Сѓ Рё РїРѕ РґРѕС‡РµСЂРЅРёРј СѓР·Р»Р°Рј*/ 
 ON Enter OF b_classf DO:
-    /*окно загрузки*/
+    /*РѕРєРЅРѕ Р·Р°РіСЂСѓР·РєРё*/
     RUN clear_tt_cl-good.
     b_classf:REFRESH().
     IF AVAIL classf THEN DO:
         RUN recursion_select_by_classf(classf.id).
     END.
     ELSE DO:
-        DISP "Процедура не может найти запись!".
+        DISP "РџСЂРѕС†РµРґСѓСЂР° РЅРµ РјРѕР¶РµС‚ РЅР°Р№С‚Рё Р·Р°РїРёСЃСЊ!".
         RETURN.
     END. 
     RUN print_katalog.
     SET b_katalog WITH FRAME f_katalog.
 END.
 
-/*применение фильтров при изменении полей фильтра*/
+/*РїСЂРёРјРµРЅРµРЅРёРµ С„РёР»СЊС‚СЂРѕРІ РїСЂРё РёР·РјРµРЅРµРЅРёРё РїРѕР»РµР№ С„РёР»СЊС‚СЂР°*/
 ON VALUE-CHANGED OF 
     comsorted,
     checkboxsort, 
@@ -145,7 +145,7 @@ ON VALUE-CHANGED OF
     RUN print_katalog.
 END.
 
-/*обновление каталога при смене фокуса записи */
+/*РѕР±РЅРѕРІР»РµРЅРёРµ РєР°С‚Р°Р»РѕРіР° РїСЂРё СЃРјРµРЅРµ С„РѕРєСѓСЃР° Р·Р°РїРёСЃРё */
 ON VALUE-CHANGED OF b_katalog DO:
    /* DEF VAR target_cod_good AS DECIMAL.
     target_cod_good = katalog.cod_good.
@@ -157,7 +157,7 @@ ON VALUE-CHANGED OF b_katalog DO:
     b_katalog:REFRESH().
 END.
 
-/*вызов формы фильтра в каталоге*/
+/*РІС‹Р·РѕРІ С„РѕСЂРјС‹ С„РёР»СЊС‚СЂР° РІ РєР°С‚Р°Р»РѕРіРµ*/
 ON F5 OF b_katalog DO: 
     SET filtr_name
         filtr_art
@@ -165,7 +165,7 @@ ON F5 OF b_katalog DO:
         WITH FRAME f_katalog_filtr.
 END.
 
-/*очистка полей формы фильтра*/
+/*РѕС‡РёСЃС‚РєР° РїРѕР»РµР№ С„РѕСЂРјС‹ С„РёР»СЊС‚СЂР°*/
 ON F7 OF
     filtr_name,
     filtr_art,
@@ -176,22 +176,22 @@ ON F7 OF
     RUN print_katalog.
 END.
 
-/*вызов формы сортировки в каталоге*/
+/*РІС‹Р·РѕРІ С„РѕСЂРјС‹ СЃРѕСЂС‚РёСЂРѕРІРєРё РІ РєР°С‚Р°Р»РѕРіРµ*/
 ON F6 OF b_katalog DO:
     SET comsorted
         checkboxsort 
         WITH FRAME f_katalog_sort.
 END.
 
-/* изменение записи */
+/* РёР·РјРµРЅРµРЅРёРµ Р·Р°РїРёСЃРё */
 ON RIGHT OF b_katalog DO:
     GET CURRENT q_tt_cl-good EXCLUSIVE-LOCK NO-WAIT.
     IF NOT AVAIL katalog THEN DO: 
         b_katalog:DELETE-SELECTED-ROWS().
-        MESSAGE "Запись уже удалена другим пользователем." VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
+        MESSAGE "Р—Р°РїРёСЃСЊ СѓР¶Рµ СѓРґР°Р»РµРЅР° РґСЂСѓРіРёРј РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј." VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
     END.
     ELSE DO:
-        IF LOCKED katalog THEN MESSAGE "Эта запись в данный момент использвется другим пользователем." VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
+        IF LOCKED katalog THEN MESSAGE "Р­С‚Р° Р·Р°РїРёСЃСЊ РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РёСЃРїРѕР»СЊР·РІРµС‚СЃСЏ РґСЂСѓРіРёРј РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј." VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
         ELSE DO:
             ENABLE ALL WITH FRAME f_katalog_update.
             UPDATE katalog.NAME WITH FRAME f_katalog_update VIEW-AS DIALOG-BOX.
@@ -201,17 +201,17 @@ ON RIGHT OF b_katalog DO:
     b_katalog:REFRESH().
 END.
 
-/* удаление записи */
+/* СѓРґР°Р»РµРЅРёРµ Р·Р°РїРёСЃРё */
 ON DEL OF b_katalog DO:
     GET CURRENT q_tt_cl-good EXCLUSIVE-LOCK NO-WAIT.
     IF NOT AVAIL katalog THEN DO:
         b_katalog:DELETE-SELECTED-ROWS().
-        MESSAGE "Запись уже удалена другим пользователем." VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
+        MESSAGE "Р—Р°РїРёСЃСЊ СѓР¶Рµ СѓРґР°Р»РµРЅР° РґСЂСѓРіРёРј РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј." VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
     END.
     ELSE DO:
-        IF LOCKED katalog THEN MESSAGE "Эта запись в данный момент использвется другим пользователем." VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
+        IF LOCKED katalog THEN MESSAGE "Р­С‚Р° Р·Р°РїРёСЃСЊ РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РёСЃРїРѕР»СЊР·РІРµС‚СЃСЏ РґСЂСѓРіРёРј РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј." VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
         ELSE DO:
-            MESSAGE "Вы действительно хотите удалить: " + katalog.NAME + " ? " VIEW-AS ALERT-BOX QUESTION BUTTONS YES-NO TITLE "Удаление" UPDATE del_button AS LOGICAL.
+            MESSAGE "Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ: " + katalog.NAME + " ? " VIEW-AS ALERT-BOX QUESTION BUTTONS YES-NO TITLE "РЈРґР°Р»РµРЅРёРµ" UPDATE del_button AS LOGICAL.
             IF del_button THEN DO:   
                 FOR EACH cl-good EXCLUSIVE-LOCK OF katalog:
                     DELETE cl-good.
@@ -225,31 +225,31 @@ ON DEL OF b_katalog DO:
     b_katalog:REFRESH().
 END.
 
-/* возврат к классфикиатору  не робит*/
+/* РІРѕР·РІСЂР°С‚ Рє РєР»Р°СЃСЃС„РёРєРёР°С‚РѕСЂСѓ  РЅРµ СЂРѕР±РёС‚*/
 ON LEFT OF b_katalog DO:
-    /* что-то, что будет работать */
+    /* С‡С‚Рѕ-С‚Рѕ, С‡С‚Рѕ Р±СѓРґРµС‚ СЂР°Р±РѕС‚Р°С‚СЊ */
 END.
 
-/* выход из программы */
+/* РІС‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹ */
 ON F4 OF b_classf, btn_exit DO:     
-    MESSAGE "Вы действительно хотите выйти" VIEW-AS ALERT-BOX QUESTION BUTTONS YES-NO TITLE "Выход." UPDATE exit_button AS LOGICAL.
+    MESSAGE "Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ РІС‹Р№С‚Рё" VIEW-AS ALERT-BOX QUESTION BUTTONS YES-NO TITLE "Р’С‹С…РѕРґ." UPDATE exit_button AS LOGICAL.
     IF exit_button THEN DO: 
         QUIT.
     END.
 END.
 
-/* выход из программы */
+/* РІС‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹ */
 ON CHOOSE OF btn_exit 
 DO:
-    MESSAGE "Вы действительно хотите выйти" VIEW-AS ALERT-BOX QUESTION BUTTONS YES-NO TITLE "Выход." UPDATE exit_button AS LOGICAL.
+    MESSAGE "Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ РІС‹Р№С‚Рё" VIEW-AS ALERT-BOX QUESTION BUTTONS YES-NO TITLE "Р’С‹С…РѕРґ." UPDATE exit_button AS LOGICAL.
     IF exit_button THEN DO: 
         QUIT.
     END.
 END.
 
-/*выход из программы */
+/*РІС‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹ */
 ON Esc OF b_classf, btn_exit DO:     
-    MESSAGE "Вы действительно хотите выйти" VIEW-AS ALERT-BOX QUESTION BUTTONS YES-NO TITLE "Выход." UPDATE exit_button AS LOGICAL.
+    MESSAGE "Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ РІС‹Р№С‚Рё" VIEW-AS ALERT-BOX QUESTION BUTTONS YES-NO TITLE "Р’С‹С…РѕРґ." UPDATE exit_button AS LOGICAL.
     IF exit_button THEN DO: 
         QUIT.
     END.
@@ -293,7 +293,7 @@ PROCEDURE backspase:
     END.
 END.
 
-/*добавляет все товары которые связанны с выбранным классификатором во временную таблицу*/
+/*РґРѕР±Р°РІР»СЏРµС‚ РІСЃРµ С‚РѕРІР°СЂС‹ РєРѕС‚РѕСЂС‹Рµ СЃРІСЏР·Р°РЅРЅС‹ СЃ РІС‹Р±СЂР°РЅРЅС‹Рј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРј РІРѕ РІСЂРµРјРµРЅРЅСѓСЋ С‚Р°Р±Р»РёС†Сѓ*/
 PROCEDURE add_to_tt_cl-good: 
     DEF INPUT PARAMETER target_id_classf AS INTEGER.
     FOR EACH cl-good NO-LOCK WHERE cl-good.id = target_id_classf:
@@ -317,30 +317,30 @@ PROCEDURE clear_tt_cl-good:
     END.
 END PROCEDURE.
 
-/*процедура выводит записи из временной таблицы каталога в browse применяя на них сортировку и фильтр*/
+/*РїСЂРѕС†РµРґСѓСЂР° РІС‹РІРѕРґРёС‚ Р·Р°РїРёСЃРё РёР· РІСЂРµРјРµРЅРЅРѕР№ С‚Р°Р±Р»РёС†С‹ РєР°С‚Р°Р»РѕРіР° РІ browse РїСЂРёРјРµРЅСЏСЏ РЅР° РЅРёС… СЃРѕСЂС‚РёСЂРѕРІРєСѓ Рё С„РёР»СЊС‚СЂ*/
 PROCEDURE print_katalog:
     IF checkboxsort:SCREEN-VALUE IN FRAME f_katalog_sort = "TRUE" THEN DO:
         CASE comsorted:SCREEN-VALUE :
-        WHEN "Наименование" THEN
+        WHEN "РќР°РёРјРµРЅРѕРІР°РЅРёРµ" THEN
             OPEN QUERY q_tt_cl-good FOR EACH tt_cl-good NO-LOCK, EACH katalog NO-LOCK WHERE tt_cl-good.cod_good = katalog.cod_good AND
             katalog.NAME MATCHES "*" + filtr_name:SCREEN-VALUE IN FRAME f_katalog_filtr + "*" AND katalog.artic MATCHES "*" + filtr_art:SCREEN-VALUE + "*" AND STRING(katalog.cod_firm) MATCHES "*" + filtr_post:SCREEN-VALUE + "*" BY katalog.NAME Descending.
-        WHEN "Артикул" THEN
+        WHEN "РђСЂС‚РёРєСѓР»" THEN
             OPEN QUERY q_tt_cl-good FOR EACH tt_cl-good NO-LOCK, EACH katalog NO-LOCK WHERE tt_cl-good.cod_good = katalog.cod_good AND
             katalog.NAME MATCHES "*" + filtr_name:SCREEN-VALUE + "*" AND katalog.artic MATCHES "*" + filtr_art:SCREEN-VALUE + "*" AND STRING(katalog.cod_firm) MATCHES "*" + filtr_post:SCREEN-VALUE + "*" BY katalog.artic Descending.
-        WHEN "Код" THEN
+        WHEN "РљРѕРґ" THEN
             OPEN QUERY q_tt_cl-good FOR EACH tt_cl-good NO-LOCK, EACH katalog NO-LOCK WHERE tt_cl-good.cod_good = katalog.cod_good AND
             katalog.NAME MATCHES "*" + filtr_name:SCREEN-VALUE + "*" AND katalog.artic MATCHES "*" + filtr_art:SCREEN-VALUE + "*" AND STRING(katalog.cod_firm) MATCHES "*" + filtr_post:SCREEN-VALUE + "*" BY katalog.cod_good Descending.
         END CASE.
     END.
     ELSE DO:
         CASE comsorted:SCREEN-VALUE IN FRAME f_katalog_sort:
-        WHEN "Наименование" THEN
+        WHEN "РќР°РёРјРµРЅРѕРІР°РЅРёРµ" THEN
             OPEN QUERY q_tt_cl-good FOR EACH tt_cl-good NO-LOCK, EACH katalog NO-LOCK WHERE tt_cl-good.cod_good = katalog.cod_good AND
             katalog.NAME MATCHES "*" + filtr_name:SCREEN-VALUE + "*" AND katalog.artic MATCHES "*" + filtr_art:SCREEN-VALUE + "*" AND STRING(katalog.cod_firm) MATCHES "*" + filtr_post:SCREEN-VALUE + "*" BY katalog.name.
-        WHEN "Артикул" THEN
+        WHEN "РђСЂС‚РёРєСѓР»" THEN
             OPEN QUERY q_tt_cl-good FOR EACH tt_cl-good NO-LOCK, EACH katalog NO-LOCK WHERE tt_cl-good.cod_good = katalog.cod_good AND
             katalog.NAME MATCHES "*" + filtr_name:SCREEN-VALUE + "*" AND katalog.artic MATCHES "*" + filtr_art:SCREEN-VALUE + "*" AND STRING(katalog.cod_firm) MATCHES "*" + filtr_post:SCREEN-VALUE + "*" BY katalog.artic.
-        WHEN "Код" THEN
+        WHEN "РљРѕРґ" THEN
             OPEN QUERY q_tt_cl-good FOR EACH tt_cl-good NO-LOCK, EACH katalog NO-LOCK WHERE tt_cl-good.cod_good = katalog.cod_good AND
             katalog.NAME MATCHES "*" + filtr_name:SCREEN-VALUE + "*" AND katalog.artic MATCHES "*" + filtr_art:SCREEN-VALUE + "*" AND STRING(katalog.cod_firm) MATCHES "*" + filtr_post:SCREEN-VALUE + "*" BY katalog.cod_good.
         END CASE.
